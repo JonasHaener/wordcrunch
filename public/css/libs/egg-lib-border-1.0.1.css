@@ -1,0 +1,12 @@
+@charset "UTF-8";
+/* CSS Document */
+
+.border-thin-grey {
+		border: thin #CCC solid;
+}
+.border-top-thin-grey {
+		border-top: thin #CCC solid;
+}
+.border-bott-thin-grey {
+		border-bottom: thin #CCC solid;
+}
