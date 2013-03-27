@@ -28,8 +28,8 @@ class WC_DB_fetch
 				
 				$c;
 				$res_arr = array();
-				for ($c = 0; $c < count($array); $c += 1) {	
-					 $search_id = $array[$c];
+				foreach ($array as $item ) {
+					 $search_id = $item;
 					 // sql query for is search
 					 $sql_id = "SELECT id, german, english, french, dutch, japanese, italian, spanish,comments, updated 
 									FROM keywords WHERE id = '{$search_id}'";

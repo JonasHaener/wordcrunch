@@ -40,14 +40,11 @@ class WC_DB_delete
 				$sql = "DELETE FROM keywords WHERE id='{$input['id_to_edit']}'"; 
 				// if query yields results execute search			
 				$this->db_conn->query($sql);
+				// assign success message
 				if($this->db_conn->affected_rows > 0) {
 					$this->db_res[0] = array('status' => "Entry deleted");
 				}
 				$this->db_conn->close();
-			
-			
-			
-				
 		}
 		// destructor
 		private function __destruct()
