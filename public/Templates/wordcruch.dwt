@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html class="cssgradients">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<!-- TemplateBeginEditable name="doctitle" -->
+	<title>Untitled Document</title>
+	<!-- TemplateEndEditable -->
+	<!-- TemplateBeginEditable name="head" -->
+	<link type="text/css" rel="stylesheet" href="lib/style/main.css">
+	<script></script>
+	<!-- TemplateEndEditable -->
+</head>
+<body>
+<!-- TemplateBeginEditable name="body2" -->body
+<!-- TemplateEndEditable -->
+<!--<script src="../js/libs/jQuery-v1.8.2.js"></script>-->
+<script src="../js/libs/jQuery-v1.9.1.js"></script>
+<script src="../js/control/controller.js"></script>
+<script src="../js/control/navi.js"></script>
+<script src="../js/model/db.js"></script>
+<script src="../js/view/update.js"></script>
+</body>
+
+</html>
