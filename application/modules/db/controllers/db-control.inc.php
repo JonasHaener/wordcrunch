@@ -8,7 +8,7 @@
 /**---------------------------
 		Dependencies
  ---------------------------**/
-require_once('../helpers/db-class-connect.inc.php');
+require_once('../../helpers/db-class-connect.inc.php');
 require_once('../models/db-class-create.inc.php');
 require_once('../models/db-class-fetch.inc.php');
 require_once('../models/db-class-update.inc.php'); //blocking
