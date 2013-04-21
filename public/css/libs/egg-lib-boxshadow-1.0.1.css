@@ -25,6 +25,9 @@
 .emboss-black {
 	text-shadow: 0 2px 0 #FFF, 0 -1px 0 #000;
 }
+.emboss-black-bot {
+	text-shadow: 1px 1px 0 #000;
+}
 .emboss-orange-white {
 	text-shadow: 1px 1px 0 #F90, -1px -1px 0 #C00;
 }

@@ -7,10 +7,10 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<!-- InstanceBeginEditable name="doctitle" -->
-	<title>Search | WordCrunch</title>
+	<title>search|wordcrunch</title>
 	<!-- InstanceEndEditable -->
 	<!-- InstanceBeginEditable name="head" -->
-	<link type="text/css" rel="stylesheet" href="css/main.css">
+	<link type="text/css" rel="stylesheet" href="css/wc-main.css">
 	<script></script>
 	<!-- InstanceEndEditable -->
 </head>
@@ -175,10 +175,10 @@
 <!-- InstanceEndEditable -->
 <!--<script src="../js/libs/jQuery-v1.8.2.js"></script>-->
 <script src="js/libs/jQuery-v1.9.1.js"></script>
-<script src="js/control/controller.js"></script>
-<script src="js/control/navi.js"></script>
-<script src="js/model/db.js"></script>
-<script src="js/view/update.js"></script>
+<script src="js/modules/db/control/wc-db-control.js"></script>
+<script src="js/modules/db/model/wc-db-model.js"></script>
+<script src="js/modules/db/view/wc-db-view-update.js"></script>
+<script src="js/modules/interface/wc-db-navi.js"></script>
 </body>
 
 <!-- InstanceEnd --></html>
