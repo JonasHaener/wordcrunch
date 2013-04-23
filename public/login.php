@@ -12,12 +12,12 @@ require_once("../application/modules/login/wc-login-logic.php");
 	<!-- InstanceEndEditable -->
 	<!-- InstanceBeginEditable name="head" -->
 	<link type="text/css" rel="stylesheet" href="css/wc-main.css">
-	<script src="<?php echo $abs_path;?>libs/js/calculator/modernizr.custom.59742_all_features.js"></script>
+	<script src="libs/js/calculator/modernizr.custom.59742_all_features.js"></script>
 	<!-- InstanceEndEditable -->
 </head>
 <body>
 <!-- InstanceBeginEditable name="body2" -->
-	<div id="login_module" class="backgr-grey-l">
+	<div id="login_module" class="@@backgr-grey-l">
 		<div id="container">
 			<section id="login_page" class="c_section border-bott-thin-grey">
 				<header class="backgr-win-blue bottom-border-thin-light"><h1 class="txt-light-blue center-text emboss-black-bot">@wordcrunch</h1></header>

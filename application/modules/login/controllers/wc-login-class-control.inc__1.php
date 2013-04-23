@@ -4,25 +4,13 @@
  *
  */
 
-/*
-$user_input = 'fridolin88';
-$password = crypt('fridolin88'); // let the salt be automatically generated
-
-// You should pass the entire results of crypt() as the salt for comparing a
-//   password, to avoid problems when different hashing algorithms are used. (As
-//   it says above, standard DES-based password hashing uses a 2-character salt,
-//   but MD5-based hashing uses 12.)
-if (crypt($user_input, $password) == $password) {
-   echo "Password verified!";
-}
-*/
 
 class WC_LOGIN_model
 {		
 		public $model;
 		public $conn;
 		public $res;
-		public $err = "Username or password incorrect :(";
+		public $err = "";
 		// constructor
 		public function __construct( $conn ) {
 			
@@ -33,15 +21,10 @@ class WC_LOGIN_model
 		// fetcher query function
 		public function fetch( $user_name, $pw ) {
 			
-			// $sql = "SELECT username, password FROM users WHERE username = '{$user_name}' AND password = '{$pw}'";
-			// $sub_res = $this->conn->query($sql);
-			// $this->res = ($sub_res->num_rows < 1) ? false : true;
-			// $this->err = ($this->res === false) ? "Username or password incorrect :(" : "";
-		
-			// 2013-04-23
-			$user_input = $pw;
-			$password = crypt('fridolin88');
-			$this->res = ( crypt($user_input, $password) == $password ) ? true : false;
+			 $sql = "SELECT username, password FROM users WHERE username = '{$user_name}' AND password = '{$pw}'";
+			 $sub_res = $this->conn->query($sql);
+			 $this->res = ($sub_res->num_rows < 1) ? false : true;
+			 $this->err = ($this->res === false) ? "Username or password incorrect :(" : "";
 		}
 }
 
