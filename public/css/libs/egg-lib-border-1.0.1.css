@@ -10,3 +10,9 @@
 .border-bott-thin-grey {
 		border-bottom: thin #CCC solid;
 }
+.border-thin-blue {
+		border: thin #02aeef solid;
+}
+.border-thin-black {
+		border: thin #000 solid;
+}

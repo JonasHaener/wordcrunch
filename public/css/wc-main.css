@@ -37,7 +37,6 @@
 */
 
 #login_module {
-	background: url(../images/layout/metal_patt_s.jpg) center center;
 	width: 100%;
 	height: 100%;
 }
@@ -220,6 +219,19 @@ h2 {
 		width: 100%;
 		background: #02aeef url(../images/layout/title.png) no-repeat 2em center;
 }
+
+/********************** header user ***********************/
+#index_module
+#user {
+		padding: 0.5em;
+		padding-left: 1em;	
+}
+#index_module
+#user a:hover {
+	text-decoration: underline;	
+		
+}
+
 
 /********************** left navi ***********************/
 #index_module 

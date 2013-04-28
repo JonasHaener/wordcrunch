@@ -1,7 +1,13 @@
 <?php
+// DB connection
 require_once('../application/modules/helpers/wc-db-class-connect.inc.php');
+// PW hashing library
+require_once('../library/password_compat/lib/password.php');
+//echo password_hash("fridolin88", PASSWORD_BCRYPT);
+// login controller class
 require_once('../application/modules/login/controllers/wc-login-class-control.inc.php');
-require_once("../application/modules/login/wc-login-logic.php");
+// login logic
+require_once("../application/modules/login/wc-login-logic.inc.php");
 ?>
 <!DOCTYPE HTML>
 <html class="cssgradients"><!-- InstanceBegin template="/Templates/wordcruch.dwt" codeOutsideHTMLIsLocked="false" -->
@@ -17,9 +23,9 @@ require_once("../application/modules/login/wc-login-logic.php");
 </head>
 <body>
 <!-- InstanceBeginEditable name="body2" -->
-	<div id="login_module" class="@@backgr-grey-l">
+	<div id="login_module" class="backgr-grey-l">
 		<div id="container">
-			<section id="login_page" class="c_section border-bott-thin-grey">
+			<section id="login_page" class="c_section border-thin-black">
 				<header class="backgr-win-blue bottom-border-thin-light"><h1 class="txt-light-blue center-text emboss-black-bot">@wordcrunch</h1></header>
 				<div id="login_form" class="backgr-grey-vl">
 				<?php 

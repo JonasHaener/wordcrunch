@@ -74,15 +74,15 @@ class WC_DB_fetch
 					// push results rows!! into array
 					while ($stmt -> fetch() ) {
 							$temp_arr = array();
-							$temp_arr['id']			= $id;
+							$temp_arr['id']				= $id;
 							$temp_arr['german']		= $german;
-							$temp_arr['english']		= $english;
-							$temp_arr['french'] 		= $french; 
+							$temp_arr['english']	= $english;
+							$temp_arr['french'] 	= $french; 
 							$temp_arr['dutch'] 		= $dutch;
 							$temp_arr['japanese']	= $japanese;
 							$temp_arr['italian'] 	= $italian;
 							$temp_arr['spanish'] 	= $spanish;
-							$temp_arr['comments'] 	= $comments;
+							$temp_arr['comments'] = $comments;
 							$temp_arr['updated'] 	= $updated;
 							// push subresults in results array	
 							$arr_res[] = $temp_arr;

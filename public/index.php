@@ -1,6 +1,5 @@
 <?php
-//include_once('../application/modules/login/controllers/login-control.php');
-
+require_once("../application/modules/login/wc-check-session.inc.php");
 ?> 
 <!DOCTYPE HTML>
 <html class="cssgradients"><!-- InstanceBegin template="/Templates/wordcruch.dwt" codeOutsideHTMLIsLocked="false" -->
@@ -18,6 +17,11 @@
 <!-- InstanceBeginEditable name="body2" -->
 <!--index page container-->
 	<div id="index_module" class="">
+<!--user bar-->	
+	<div id="user" class="backgr-light-blue">
+		<span>Logged in as,&nbsp;<strong><?php echo $_SESSION['username']; ?></strong></span>&nbsp;
+		<a href="logout.php" id="logout_button">Logout</a>
+	</div>
 <!--header bar-->
 		<header class="header margin-bott-3_5em"></header>
 <!--main container-->
