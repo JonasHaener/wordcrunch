@@ -17,13 +17,13 @@ require_once("../application/modules/login/wc-check-session.inc.php");
 <!-- InstanceBeginEditable name="body2" -->
 <!--index page container-->
 	<div id="index_module" class="">
+<!--header bar-->
+		<header class="header"></header>
 <!--user bar-->	
-	<div id="user" class="backgr-light-blue">
-		<span>Logged in as,&nbsp;<strong><?php echo $_SESSION['username']; ?></strong></span>&nbsp;
+	<div id="user" class="backgr-win-white border-bott-thin-grey margin-bott-3_5em">
+		<span>User:&nbsp;<strong><?php echo $_SESSION['username'];?>&nbsp;&nbsp;|&nbsp;</strong></span>
 		<a href="logout.php" id="logout_button">Logout</a>
 	</div>
-<!--header bar-->
-		<header class="header margin-bott-3_5em"></header>
 <!--main container-->
 		<div id="main_container" class="">
 		<div id="spinner" class="ajax-load"></div>
@@ -41,8 +41,11 @@ require_once("../application/modules/login/wc-check-session.inc.php");
 				<h2 id="menu_entry_displ" class="col-light-grey float-left margin-right-1-5em">Keyword search</h2>
 				<nav id="function_navi" class="float-left">
 					<ul class="float-left margin-bottom-1em">
+						
+						<?php if($_SESSION['rights_level'] !== 0) { ?>
 						<li id="entry_edit" class="backgr-win-purple backgr-win-blue-h float-left div margin-right-025em"></li>
 						<!--<li id="entry_delete" class="backgr-win-purple backgr-win-blue-h float-left  margin-right-025em"></li>-->
+						<?php } ?>
 						<li id="entry_refresh" class="backgr-win-purple backgr-win-blue-h float-left  margin-right-2em"></li>
 					</ul>
 				<!-- form and search navigation-->
@@ -68,8 +71,8 @@ require_once("../application/modules/login/wc-check-session.inc.php");
 							</select>-->
 					</form>
 				</nav>
-				
-				
+				<!-- Hide inputs when editor rights are not met -->
+				<?php if($_SESSION['rights_level'] !== 0) { ?>
 				<form action="" id="form_edit_entry" name="form_edit_entry" class="float-left inl-block margin-bottom-2em padd-top-2em padd-bott-1em border-top-thin-grey border-bott-thin-grey">
 							<!--Radio button selection -->
 							
@@ -91,7 +94,8 @@ require_once("../application/modules/login/wc-check-session.inc.php");
 							<input type="text" id="edit_spanish" class="inp-field inl-block margin-right-1em margin-bottom-1em" name="edit_spanish" placeholder="New Spanish here">
 							<input type="text" id="edit_comments" class="inp-field inl-block margin-right-1em margin-bottom-1em" name="edit_comments" placeholder="Comments here">
 							
-					</form>
+				</form>
+				<?php }; ?>
 				<table class="" id="result">
 						
 						<thead >

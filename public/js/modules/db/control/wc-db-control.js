@@ -437,10 +437,11 @@ WC.forms.controller = {
 WC.dates = {
 	// self-updating
 	write_date: function() {
-		console.log('time updated');
+		//console.log('time updated');
 		var d = new Date();
 		$('#date').html( d.toDateString() );
-		//setTimeout(WC.dates.write_date, 60000);
+		// update date every hour
+		setTimeout(WC.dates.write_date, 60000);
 	}
 };
 // call to initialize

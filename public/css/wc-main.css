@@ -29,7 +29,6 @@
 }
 
 
-
 /*
 ============================================== 
 		LOGIN
@@ -224,7 +223,8 @@ h2 {
 #index_module
 #user {
 		padding: 0.5em;
-		padding-left: 1em;	
+		padding-left: 2.5em;
+			
 }
 #index_module
 #user a:hover {

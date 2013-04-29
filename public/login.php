@@ -29,11 +29,8 @@ require_once("../application/modules/login/wc-login-logic.inc.php");
 				<header class="backgr-win-blue bottom-border-thin-light"><h1 class="txt-light-blue center-text emboss-black-bot">@wordcrunch</h1></header>
 				<div id="login_form" class="backgr-grey-vl">
 				<?php 
-				if ($LOGIN_ERROR) { echo "<p class='error margin-bottom-1em'>$LOGIN_ERROR</p>";
-				} elseif (isset($_GET['expired'])) {
-				?>
-				<p class="error">Your session has expired, please login again.</p>
-				<?php } ?>
+				if ($LOGIN_ERROR) { echo "<p class='error margin-bottom-1em'>{$LOGIN_ERROR}</p>";
+				} ?>
 				<form action="" method="post">
 						<input type="text" id="username" name="username" class="margin-right-3em focus field-border" required placeholder="Your username">
 						<input type="password" id="password" name="password" class="margin-right-3em focus field-border" required placeholder="Your password">
