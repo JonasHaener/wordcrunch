@@ -3,11 +3,11 @@
 require_once('../application/modules/helpers/wc-db-class-connect.inc.php');
 // PW hashing library
 require_once('../library/password_compat/lib/password.php');
+//echo password_hash("fridolin88", PASSWORD_BCRYPT);
 // login controller class
 require_once('../application/modules/login/controllers/wc-login-class-control.inc.php');
 // login logic
 require_once("../application/modules/login/wc-login-logic.inc.php");
-// session
 require_once("../application/modules/login/wc-session-class.inc.php");
 ?>
 <!DOCTYPE HTML>
@@ -25,19 +25,23 @@ require_once("../application/modules/login/wc-session-class.inc.php");
 <body>
 <!-- InstanceBeginEditable name="body2" -->
 	<div id="login_module" class="backgr-grey-l">
-		<div class="top_bar backgr-win-blue"></div>
 		<div id="container">
-			<section id="login_page" class="border-thin-grey">
-				<div id="login_form" class="backgr-win-white">
+			<section id="login_page" class="c_section border-thin-black">
+				<header class="backgr-win-blue bottom-border-thin-light"><h1 class="txt-light-blue center-text emboss-black-bot">@wordcrunch</h1></header>
+				<div id="login_form" class="backgr-grey-vl">
 				<?php 
 				if ($LOGIN_ERROR) { echo "<p class='error margin-bottom-1em'>{$LOGIN_ERROR}</p>";
 				} ?>
 				<form action="" method="post">
-						<label for="username" class="margin-bottom-0_5em">Name:&nbsp;</label>
-						<input type="text" id="username" name="username" class="focus field-border" required placeholder="Your username">
-						<label for="password" class="margin-bottom-0_5em">Password:&nbsp;</label>
-						<input type="password" id="password" name="password" class="focus field-border" required placeholder="Your password">
-						<input type="submit" class="gradient-black-rgb-vlight box-shadow-lit" id="submit" name="login">	
+						<input type="text" id="username" name="username" class="margin-right-3em focus field-border" required placeholder="Your username">
+						<input type="password" id="password" name="password" class="margin-right-3em focus field-border" required placeholder="Your password">
+						<input type="submit" class="gradient-black-rgb-vlight box-shadow-lit" id="submit" name="login"<?php
+								//if error is blank form was not submitted or there are no error after validation
+								if (!$login_ok) { 
+									echo 'value="Log In"';
+								} elseif ($login_ok) {
+									echo 'disabled="disabled" value="Logged In!"';
+								} ?>>	
 					</form>				
 				</div>
 			</section>

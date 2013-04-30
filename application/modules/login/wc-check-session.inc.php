@@ -7,4 +7,8 @@ $redirect_to_login = "login.php";
 if (!isset($_SESSION['authenticated'])) {
 	header("Location: {$redirect_to_login}");
 	exit;
+} else {
+	$sess_auth 		= $_SESSION['authenticated'];
+	$sess_user 		= $_SESSION['username'];
+	$sess_rights	= $_SESSION['rights_level'];
 }

@@ -19,9 +19,9 @@ require_once("../application/modules/login/wc-check-session.inc.php");
 	<div id="index_module" class="">
 <!--header bar-->
 		<header class="header"></header>
-<!--user bar-->
+<!--user bar-->	
 	<div id="user" class="backgr-win-white border-bott-thin-grey margin-bott-3_5em">
-		<span>User:&nbsp;<strong><?php echo $sess_user;?>&nbsp;&nbsp;|&nbsp;</strong></span>
+		<span>User:&nbsp;<strong><?php echo $_SESSION['username'];?>&nbsp;&nbsp;|&nbsp;</strong></span>
 		<a href="logout.php" id="logout_button">Logout</a>
 	</div>
 <!--main container-->
@@ -42,7 +42,7 @@ require_once("../application/modules/login/wc-check-session.inc.php");
 				<nav id="function_navi" class="float-left">
 					<ul class="float-left margin-bottom-1em">
 						
-						<?php if($sess_rights !== 0) { ?>
+						<?php if($_SESSION['rights_level'] !== 0) { ?>
 						<li id="entry_edit" class="backgr-win-purple backgr-win-blue-h float-left div margin-right-025em"></li>
 						<!--<li id="entry_delete" class="backgr-win-purple backgr-win-blue-h float-left  margin-right-025em"></li>-->
 						<?php } ?>
@@ -72,7 +72,7 @@ require_once("../application/modules/login/wc-check-session.inc.php");
 					</form>
 				</nav>
 				<!-- Hide inputs when editor rights are not met -->
-				<?php if($sess_rights !== 0) { ?>
+				<?php if($_SESSION['rights_level'] !== 0) { ?>
 				<form action="" id="form_edit_entry" name="form_edit_entry" class="float-left inl-block margin-bottom-2em padd-top-2em padd-bott-1em border-top-thin-grey border-bott-thin-grey">
 							<!--Radio button selection -->
 							
@@ -84,26 +84,14 @@ require_once("../application/modules/login/wc-check-session.inc.php");
 							<input type="button" id="go_edit" name="go_edit" class="inl-block margin-right-1em margin-bottom-1em" value="Update"><br><br>
 							
 							<!--input fields for editing-->
-							<span class="language_label">ID:&nbsp;</span>
 							<input type="text" id="id_to_edit" class="inp-field inl-block margin-right-1em margin-bottom-1em" name="id_to_edit" placeholder="Enter ID here">
-							<span class="language_label">DE:&nbsp;</span>
 							<input type="text" id="edit_german" class="inp-field inl-block margin-right-1em margin-bottom-1em" name="edit_german" placeholder="New German here">
-							<span class="language_label">EN:&nbsp;</span>
 							<input type="text" id="edit_english" class="inp-field inl-block margin-right-1em margin-bottom-1em" name="edit_english" placeholder="New English here">
-							<br>
-							<span class="language_label">FR:&nbsp;</span>
 							<input type="text" id="edit_french" class="inp-field inl-block margin-right-1em margin-bottom-1em" name="edit_french" placeholder="New French here">
-							
-							<span class="language_label">NL:&nbsp;</span>
 							<input type="text" id="edit_dutch" class="inp-field inl-block margin-right-1em margin-bottom-1em" name="edit_dutch" placeholder="New Dutch here">
-							<span class="language_label">JP:&nbsp;</span>
 							<input type="text" id="edit_japanese" class="inp-field inl-block margin-right-1em margin-bottom-1em" name="edit_japanese" placeholder="New Japanese here">
-							<br>
-							<span class="language_label">IT:&nbsp;</span>
 							<input type="text" id="edit_italian" class="inp-field inl-block margin-right-1em margin-bottom-1em" name="edit_italian" placeholder="New Italian here">
-							<span class="language_label">ES:&nbsp;</span>
 							<input type="text" id="edit_spanish" class="inp-field inl-block margin-right-1em margin-bottom-1em" name="edit_spanish" placeholder="New Spanish here">
-							<span class="language_label">CM:&nbsp;</span>
 							<input type="text" id="edit_comments" class="inp-field inl-block margin-right-1em margin-bottom-1em" name="edit_comments" placeholder="Comments here">
 							
 				</form>

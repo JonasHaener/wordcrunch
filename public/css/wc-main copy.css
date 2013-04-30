@@ -54,21 +54,22 @@
 		border: solid thin #666; 
 }
 
-#login_module 
-#login_form {
-		padding: 5%;
-		position: relative;
-}
 #login_module
-label {
-	color: #6A6A6A;
-	display: inline-block;
-	font-size: 1.8em;
+h1 {
+		font-size: 3.9em;
+		padding: 10% 0 5% 0;
+		font-weight: bold;
 }
 
 #login_module 
+#login_form {
+		padding: 5% 5% 10% 10%;
+		position: relative;
+}
+#login_module 
 .focus:focus {
-	outline: 2px solid #000;
+	outline: 3px solid #000;
+	background: #E8E8E8;
 }
 #login_module 
 input[type=text],input[type=password] {
@@ -109,13 +110,14 @@ form .ok {
 #login_module 
 #login_form input[type=text], 
 #login_form input[type=password]  {
-		width: 100%;
+		width: 80%;
 		height: 3%;
 		margin-bottom: 3%;
-		color: #02aeef;
+		color: #6B6B6B;
 		font-size: 1.6em;
 		padding: .7em 0 .7em .7em;
 		text-align: left;
+		position: relative;
 }
 
 #login_module 
@@ -138,14 +140,17 @@ form .ok {
 	#login_module 
 	#container {
 		font-size: 1em;
-		padding: 5em 5em;
+		padding: 10% 3em;
 		position: relative;
-		max-width: 55em;
+		overflow: hidden;
+		max-width: 60em;
+		margin: 0 auto;
 	}
 	#login_module 
 	#login {
 		margin-bottom: 5%;
 	}
+
 }
 
 @media screen and (max-width: 499px) {

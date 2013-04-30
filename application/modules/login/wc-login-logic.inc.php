@@ -7,7 +7,7 @@
  */
 $LOGIN_ERROR = "";
 
-function WC_login_logic( $user_input, &$error ) {
+function WC_login_logic( $user_input, &$error, &$session ) {
 	
 	// redirect to main page on successfull login
 	$REDIRECT = "http://localhost/wordcrunch_3/public";
@@ -19,10 +19,11 @@ function WC_login_logic( $user_input, &$error ) {
 	$controller = new WC_LOGIN_controller($model, $user_input);
 	// call view, pass model, controller
 	$view = new WC_LOGIN_view($model, $controller);
+	// close connection
 	$db->conn->close();
-
 	// if login successful redirect
 	// if not successfull call error and display on login page
+	// create user session
 	if ($view->get_login() === true) {
 		session_start();
 		ob_start();
@@ -39,10 +40,10 @@ function WC_login_logic( $user_input, &$error ) {
 	} else {
 		$error = $view->get_error();
 	}
+	
 }
-
 // if $_POST is set run login logic
 if( isset($_POST['username']) && isset($_POST['password']) ) {
-	WC_login_logic( $_POST, $LOGIN_ERROR);
+	WC_login_logic( $_POST, $LOGIN_ERROR, $session);
 }
 
