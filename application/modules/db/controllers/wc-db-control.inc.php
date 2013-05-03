@@ -4,7 +4,6 @@
  *
  */
 
-
 /**---------------------------
 		Dependencies
  ---------------------------**/
@@ -16,7 +15,9 @@ require_once('../models/wc-db-class-delete.inc.php');
 require_once('../view/wc-db-view.inc.php');
 
 
-
+// AJAX error testing
+//header("HTTP/1.0 404 Not Found");
+//exit();
 
 /**---------------------------
 		Controller
@@ -54,7 +55,7 @@ function WC_db_controller($inp)
 			$db = new WC_DB_fetch("localhost", "jonasCanAll", "fridolin88", "wordcrunch", 'mysqli', $inp['id_to_edit']);
 			//echo 'FETCH';
 		}
-
+		
 		// send data to returner
 		WC_db_writer($db->db_res);
 }

@@ -15,29 +15,66 @@ WC.forms = {};
 WC.helper = {};
 
 
+
 /*========================================================
 			HELPERS
 ==========================================================*/
+
+/**---------------------------
+		parse JSON
+ ---------------------------**/
 
 WC.helper.parse_json = function (d) {
 	return $.parseJSON(d);
 };
 
-WC.helper.trim_string = function (str, bool) {
-	// bool false = trim left right only
-	if (bool === false) {
-		return str.trim();
+/**---------------------------
+		clean up input string
+ ---------------------------**/
+
+WC.helper.String_serializer = function (d) {
+	var rex = /\s+/g,
+		 trimmed = "";
+	// trim off spaces		
+	trimmed = d.trim();
+	// remove spaces in comma separated input
+	if (rex.test(trimmed)) {
+		trimmed = trimmed.replace(rex, "");
 	}
-	// bool true = clean within string too, 
-	if (bool === true) {
-		var str_s1 = str.trim(),
-				str_s2 = str_s1.replace(/\s*/g, "");
-		return str_s2;		
-	}
+	return trimmed;
 };
 
-WC.helper.trim_comas = function (str) {
-	return str.replace(/\,+/g, ",");
+// accepts one form element only
+WC.helper.serializer = function (d, name, serialize) {	
+	var rex = /\s+/g,
+	
+	// serialize
+	do_serialize = function (str) {
+		// return searlized string
+		return encodeURIComponent(name) + "=" + encodeURIComponent(str);
+	},
+	
+	// prepare string
+	prep_string = function (string) {
+		var cleanString = "";
+		// validate type input
+		if (typeof string !== 'string') {
+			return null;
+		} else {
+			cleanString = string.trim();
+			// remove blanks
+			if (rex.test(cleanString)) {
+				cleanString = cleanStr.replace(rex, "");
+			}
+			// seralize string for submission
+			if (serialize === true) {
+				cleanString = do_serialize(cleanString);
+			}
+			// return cleaned string
+			return cleanString;
+		}
+	};
+	return prep_string(d);
 };
 
 /*========================================================
@@ -47,144 +84,84 @@ WC.helper.trim_comas = function (str) {
 /**---------------------------
 		Model – Database
  ---------------------------**/
+
+WC.helper.parse_json = function (d) {
+	return $.parseJSON(d);
+};
+
+WC.helper.trim_string = function (d) {
+	var rex = /\s*/g,
+	trimmed = d.trim();
+	trimmed = trimmed.replace(rex, "");
+};
+
 WC.db.model = {
 	// make DB call
 	ajx_data: "",
-	// call type from controller
 	call_type: "",
 	// exponential backoff
 	attempts: 3,
 	// exponential backoff attempts 
 	delay: 2000,
-	
-	// controlls DB model
-	controller: {
-		// called by input controller
-		db_call: function(ide, form) { 
-			WC.db.model.callDB(ide, form);
-		},
-		// function called by ajax success event
-		prep_results_view: function(call_type, json) {
-			var _this = WC.db.model,
-					view = WC.db.view,
-					// JSON data from DB in JS object
-					js_obj = _this.ready_json(json),
-					result = js_obj.result[0],
-					status = js_obj.status,
-					rows = "",
-					ids = "";
-			// prepare for view
-			if (typeof call_type !== 'string') {
-				return;
-			}
-			// call view based on type 'search', 'retrieve', 'edit', 'delete'
-			switch (call_type) {
-				// DB search
-				// results
-				case 'search':
-					rows = _this.prep_table( js_obj ),
-					ids = js_obj['ids_used'];
-					view.update_content( rows );
-					view.update_id( ids );
-					// display if not entries found
-					if (typeof status === "string") {
-						view.update_status( status );	
-					}
-					break;
-				// retrieve values for 
-				// editing form	
-				case 'retrieve':
-					if (typeof result.id === 'string' && result.id !== "") {
-						view.update_for_edit( result );
-					}
-					if (typeof status === "string") {
-						view.update_status( status );	
-					}
-					break;
-				// editing and saving 
-				// from form
-				case 'edit':
-					view.update_for_edit( result );
-					if (typeof status === "string") {
-						view.update_status( status );	
-					}
-					break;			
-					// deleting and saving 
-					// from form	
-				case 'delete':
-					view.update_for_edit( result );
-					if (typeof status === "string") {
-						view.update_status( status );	
-					}
-					break;
-			}
-		},
-	},
-	
-	// make Ajax DB call
 	callDB: function (ide, form) {
 		var _this = this;
-		// in editor mode call user warning first
-		if (ide && ide === "edit" && WC.db.view.warn_confirm() === false) {
-			return;
-		}
-		// for consecutive calls use saved values and assign
-		// values directly
-		_this.ajx_data = (form) ? form.serialize() : _this.ajx_data;
-		alert(_this.ajx_data);
-		_this.call_type = (ide) ? ide : _this.call_type;
+		_this.ajx_data = (form) ? form.serialize() : this.ajx_data;
+		_this.call_type = (ide) ? ide : this.call_type;
+		console.log('serialized fields :', this.ajx_data);
+	
 		// AJAX call
 		$.ajax({
 			type: "POST",
 			url: '../application/modules/db/controllers/wc-db-control.inc.php',
 			data: _this.ajx_data,
 			beforeSend: function() {
-				// show spinner
-				WC.db.view.show_spinner();
+				// add spinner here
 			},
 			// success function
 			success: function (data) {
-				//pass data back to model controller
-				_this.controller.prep_results_view( _this.call_type, data );	
+				//alert(data)
+				var res = _this.ready_data(data);	
+				WC.db.controller.caller(_this.call_type, res);
 			},
 			// error handling function
 			error: function(xhr, status) {
         if(_this.attempts-- === 0) {
-          // After 4 trials call end to server
-					WC.db.view.update_status( "Server not responding" );
+          // Sorry. We give up.
+					var error = { 
+								result : [ {error : "Server not responding"}]
+							}
+					WC.db.controller.caller(_this.call_type, error);
           _this.reset();
           return;
         }
         setTimeout(function() {
           _this.callDB();
-					//console.log('called again');
+					console.log('called again');
         }, _this.delay *= 2);
       },
 			complete: function() { 
 				// remove spinner
-				WC.db.view.hide_spinner();
 			}
 		});
 	},
-	
 	// reset function
-	reset: function () {
+	reset: function() {
    	this.delay = 1000;
    	this.attempts = 3;
   },
-		
-	// transform JSON into JavaScript object
-	ready_json: function (json_data) {
+	// form table from result
+	ready_data: function (json_data) {
 		// check for string type
 		if (typeof json_data !== 'string') {
 			return;
 		}
-		var a, b,
+		var a, 
+				b,
 			 	res_string = "",
 			 	res_arr = [],
 			 	ids = "",
-			 	js_res_array = [],
-				no_entries = "";
+			 	js_res_array = [];
+	
 		//remove brackets		
 		res_string = json_data.replace(/\[(.*)\]/g, '$1');
 		// separate object entities
@@ -192,11 +169,12 @@ WC.db.model = {
 		// split into array
 		res_arr = res_string.split('|');
 		// prepare javascript results object
+		
 		for (a = 0; a < res_arr.length; a += 1) {
 			// if results array is empty assign error message
 			// stop loop
 			if (res_arr[a] === "") {
-				js_res_array[0] = { status: "Sorry, no result found" };
+				js_res_array[0] = { error: "Sorry, no result found" };
 				ids = "0";
 				break;
 			}
@@ -206,22 +184,55 @@ WC.db.model = {
 			//collect used ids
 			ids = (a < 1) ? ids + b['id'] : ids + ", " + b['id'];
 		}
+
 		// return results object
 		// returns [ results object with array and used ids string ]
-		return { 'result': js_res_array, 'ids_used': ids, 'status': js_res_array[0].status };
-	},
+	return { result:js_res_array, ids_used: ids };
+	}
+};
 
+
+
+/**---------------------------
+		View – Database
+ ---------------------------**/
+WC.db.view = {
+	// results containers
+	container: $('#result > tbody'),
+	ids_container: $('#ids_used'),
+	
+	// display confirmation message
+	warn_confirm: function() {
+		return confirm('Do you know what you are doing?');
+	},
+	
+	// display user update message
+	send_user_feedback: function(data) {
+		// call either error or status
+		var stat = data[0].error || data[0].status;
+		if (typeof stat === 'string' && stat !== "") {
+			// create message container
+			var o = $('<div id="user_feedback" class="gradient-yellow-rgb"></div>');
+			o.text( stat );
+			// show user feedback and fade out
+			o.hide().appendTo($('body')).fadeIn(500).delay(1000).fadeOut(500);
+		}
+	},
+	
 	// prepare table for results
 	prep_table : function (data) {	
-		var a, b,
+		var a,
+				b,
 			 	// results db array
 			 	db_res_arr = data.result,
-			 	status = data.status,
+			 	error = db_res_arr[0].error,
 			 	rows = "";
+		
 		// if an error message is present return the error here
-		if (status) {
-			return rows += "<tr>"+"<td>"+status+"</td></tr>";
+		if (error) {
+			return rows += "<tr>"+"<td>"+error+"</td></tr>";
 		}
+		
 		// id no error loop through results rows		
 		for (a = 0; a < db_res_arr.length; a += 1) {
 			// get current position
@@ -241,61 +252,62 @@ WC.db.model = {
 		}
 		// clean up
 		db_res_arr = null;
+		
 		// return results rows
 		return rows;
-	}
-};
-
-/**---------------------------
-		View – Database
- ---------------------------**/
-WC.db.view = {
-	// results containers
-	container: $('#result > tbody'),
-	ids_container: $('#ids_used'),
-	user_message: $('<div id="user_feedback" class=""></div>'),
-	message_pos: $('body'),
-	// display confirmation message
-	warn_confirm: function() {
-		return confirm('Do you know what you are doing?');
-	},
-	show_spinner: function() { 
-		$('#spinner').show();	
-	},
-	hide_spinner: function() { 
-		$('#spinner').hide();	
 	},
 	// write results to results field
-	update_content: function (data) {
-		this.container.html(data);
+	update: function (ide, data) {
+		if (typeof ide !== 'string') {
+			return;
+		}
+		switch (ide) {
+			case 'search':
+				var rows = this.prep_table(data),
+					 ids = data['ids_used'];
+				this.container.html(rows);
+				this.ids_container.val(ids);
+				this.send_user_feedback(data.result);	
+				break;
+					
+			case 'retrieve':
+				this.update_for_edit(data.result);
+				this.send_user_feedback(data.result);
+				break;
+			
+			case 'edit':
+				this.send_user_feedback(data.result);
+				break;			
+					
+			case 'delete':
+				this.update_for_edit(data.result);
+				break;
+		}
 	},
-	// update status and error messaged
-	update_status: function (data) {
-		this.user_message
-			.text(data)
-			// show user feedback and fade out
-			.hide()
-			.addClass("gradient-yellow-rgb")
-			.appendTo(this.message_pos)
-			.fadeIn(500)
-			.delay(1000)
-			.fadeOut(500);
-	},
-	// update ids field
-	update_id: function (data) {
-		this.ids_container.val(data);
-	},
-	// update input fields
+	
+	// update update fields
 	update_for_edit: function (data) {
-		$('#id_to_edit').val(data.id);
-		$('#edit_german').val(data.german);
-		$('#edit_english').val(data.english);
-		$('#edit_french').val(data.french);
-		$('#edit_dutch').val(data.dutch);
-		$('#edit_spanish').val(data.spanish);
-		$('#edit_italian').val(data.italian);
-		$('#edit_japanese').val(data.japanese);
-		$('#edit_comments').val(data.comments);
+		// data is input as Array [ length = 1 ]
+		$('#id_to_edit').val(data[0].id);
+		$('#edit_german').val(data[0].german);
+		$('#edit_english').val(data[0].english);
+		$('#edit_french').val(data[0].french);
+		$('#edit_dutch').val(data[0].dutch);
+		$('#edit_spanish').val(data[0].spanish);
+		$('#edit_italian').val(data[0].italian);
+		$('#edit_japanese').val(data[0].japanese);
+		$('#edit_comments').val(data[0].comments);
+	},
+	
+	// showhide form
+	addSpinner: function (obj) {
+		// accept position object
+		$('#spinner').show();	
+	},
+	
+	// remove spinner
+	removeSpinner: function () {
+		$('#spinner').hide();	
 	}
 };
 
@@ -304,28 +316,45 @@ WC.db.view = {
  ---------------------------**/
 // JSON
 WC.db.controller = {
+	// model calls caller when Ajax results received
+	caller: function (ide, res) {
+		WC.db.view.update(ide, res);
+		WC.db.view.removeSpinner();		
+	},
+	
 	// refresher trigger
 	do_search: (function () {
 		$('#entry_refresh').on('click', function () {
-			WC.db.model.controller.db_call('search', $('#form_search'));
+			console.log('db.conroller: refresh clicked');
+			// call db and store result
+			// finder identifies as search database
+			WC.db.model.callDB( 'search', $('#form_search') );
+			WC.db.view.addSpinner( {'position':'inside'} );	
 		});
 	})(),
+	
 	// submit entries from edit entry form
 	do_edit: function () {
 		$('#go_edit').on('click', function () {
-			WC.db.model.controller.db_call('edit', $('#form_edit_entry'));	
+			// calll warning and confirm user input
+			if ( WC.db.view.warn_confirm() ) {
+				WC.db.model.callDB( 'edit', $('#form_edit_entry') );
+				WC.db.view.addSpinner( {'position':'ontop'} );		
+			}
 		});
 	}(),
+	
 	// retrieve data from DB for editing
 	retrieve_for_edit: function () {
 		$('#id_to_edit').on('blur', function () {
-			// do not submit the radio buttons to 
-			// avoid conflict when submitting entire form
+			// do not submit the radio buttons to avoid conflict when submitting entire form for
 			// when updating Database
 			var form = $('#form_edit_entry > input').not('input[type=radio]');
-			WC.db.model.controller.db_call('retrieve', form);
+			WC.db.model.callDB( 'retrieve', form);
+			WC.db.view.addSpinner( {'position':'ontop'} );		
 		});
 	}()
+
 };
 
 
@@ -385,6 +414,11 @@ WC.forms.view = {
 		Controller – Forms
  ---------------------------**/
 WC.forms.controller = {
+	// call user warning function
+	warner: function() {
+		return confirm('Do you know what you are doing?'); 
+	},
+	
 	// data editor form 
 	db_entry_edit_form: {
 		// showhide input
@@ -401,33 +435,8 @@ WC.forms.controller = {
 			var field_value = $(this).prop('value');
 			WC.forms.view.db_entry_edit_form.control_entry_fields(field_value);
 		});
-	}(),
-	
-	// input field cleaner
-	clean_input_fields: function () {
-			$('#inp_search').on('change', function() {
-				var txt = $(this).val();
-				// true cleans within the string too
-				txt = WC.helper.trim_string(txt, true);
-				// reduce commas to maximum one
-				txt = WC.helper.trim_comas(txt);
-				// reassign text to input field
-				$(this).val(txt);
-			});
-			$('#form_edit_entry > input').on('change', function() {
-				var txt = $(this).val();
-				// false cleans left, right
-				txt = WC.helper.trim_string(txt, false);
-				// reduce commas to maximum one
-				txt = WC.helper.trim_comas(txt);
-				// reassign text to input field
-				$(this).val(txt);
-			});
 	}()
 };
-
-
-
 
 /*========================================================
 		Dates and Times

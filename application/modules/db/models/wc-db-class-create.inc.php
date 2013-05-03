@@ -55,6 +55,8 @@ class WC_DB_create
 					// assign result of operation
 					if($r > 0) {
 						$this->db_res[0] = array('status' => "Entry created");
+					} else {
+						$this->db_res[0] = array('status' => "Entry not created");
 					}
 					// free results
 					$stmt->free_result();

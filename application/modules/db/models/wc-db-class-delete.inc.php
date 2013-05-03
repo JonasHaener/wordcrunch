@@ -43,6 +43,8 @@ class WC_DB_delete
 				// assign success message
 				if($this->db_conn->affected_rows > 0) {
 					$this->db_res[0] = array('status' => "Entry deleted");
+				} else {
+					$this->db_res[0] = array('status' => "Entry not deleted");
 				}
 				$this->db_conn->close();
 		}
