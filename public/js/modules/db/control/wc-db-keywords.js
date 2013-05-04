@@ -4,14 +4,15 @@
 /*========================================================
 			NS Namespace
 ==========================================================*/
-if (WC instanceof Object === false) {
-	var WC = {};
+if (WC_KW instanceof Object === false) {
+	var WC_KW = {};
 }
-
+if (WC_A instanceof Object === false) {
+	var WC_A = {};
+}
 // add database object to NS
-WC.db = {};
+WC_KW.db = {};
 // add forms object to NS
-WC.forms = {};
 
 /*========================================================
 			DATABASE
@@ -20,10 +21,10 @@ WC.forms = {};
 /**---------------------------
 		View – Database
  ---------------------------**/
-WC.db.view = {
+WC_KW.db.view = {
 	// results containers
 	container: $('#result > tbody'),
-	ids_container: $('#ids_used'),
+	ids_container: $('.ids_used'),
 	user_message: $('<div id="user_feedback" class=""></div>'),
 	message_pos: $('body'),
 	// display confirmation message
@@ -72,7 +73,7 @@ WC.db.view = {
 /**---------------------------
 		Model – Database
  ---------------------------**/
-WC.db.model = {
+WC_KW.db.model = {
 		// transform JSON into JavaScript object
 		ready_json: function (json_data) {
 			// check for string type
@@ -101,7 +102,7 @@ WC.db.model = {
 					break;
 				}
 				// convert JSON to javascript and push into results array
-				b = WC.helper.parse_json(res_arr[a]);
+				b = WC_A.helper.parse_json(res_arr[a]);
 				js_res_array.push(b);
 				//collect used ids
 				ids = (a < 1) ? ids + b['id'] : ids + ", " + b['id'];
@@ -112,8 +113,8 @@ WC.db.model = {
 	},
 	// function called by ajax success event
 	prep_results_view: function(call_type, json) {
-			var _this = WC.db.model,
-					view = WC.db.view,
+			var _this = WC_KW.db.model,
+					view = WC_KW.db.view,
 					// JSON data from DB in JS object
 					js_obj = _this.ready_json(json),
 					result = js_obj.result[0],
@@ -129,7 +130,7 @@ WC.db.model = {
 				// DB search
 				// results
 				case 'search':
-					rows = WC.helper.prep_table( js_obj ),
+					rows = WC_A.helper.prep_table( js_obj ),
 					ids = js_obj['ids_used'];
 					view.update_content( rows );
 					view.update_id( ids );
@@ -168,11 +169,11 @@ WC.db.model = {
 	},
 	// controlls DB model
 	controller: function(call_type, form_data) { 
-			if (call_type && call_type === "edit" && WC.db.view.warn_confirm() === false) {
+			if (call_type && call_type === "edit" && WC_KW.db.view.warn_confirm() === false) {
 				return;
 			}
-			console.log('sent ajax form data', form_data)
-			var ajax = new WC.helper.Ajax( 
+			// create ajax object
+			var ajax = new WC_A.helper.Ajax( 
 			{ 
 						'call_type' 	: call_type, 
 						'data'				: form_data,
@@ -180,10 +181,10 @@ WC.db.model = {
 						'type'				:	'POST',
 						'attempts'		:	3,
 						'delay'				:	1000,
-						'beforeSend'	: function() { WC.db.view.show_spinner(); },
-						'success'			: WC.db.model.prep_results_view,
-						'complete'		:	function() { WC.db.view.hide_spinner(); },
-						'error'				:	function() { WC.db.view.hide_spinner(); WC.db.view.update_status("Server not responding"); }
+						'beforeSend'	: function() { WC_KW.db.view.show_spinner(); },
+						'success'			: WC_KW.db.model.prep_results_view,
+						'complete'		:	function() { WC_KW.db.view.hide_spinner(); },
+						'error'				:	function() { WC_KW.db.view.hide_spinner(); WC_KW.db.view.update_status("Server not responding"); }
 			});
 			// make ajax call
 			ajax.ajx_call();
@@ -194,19 +195,19 @@ WC.db.model = {
 		Controller – Database
  ---------------------------**/
 // JSON
-WC.db.controller = {
+WC_KW.db.controller = {
 	// refresher trigger
 	do_search: (function () {
 		$('#entry_refresh').on('click', function () {
 			var form_data = $('#form_search').serialize();
-			WC.db.model.controller('search', form_data);
+			WC_KW.db.model.controller('search', form_data);
 		});
 	})(),
 	// submit entries from edit entry form
 	do_edit: function () {
 		$('#go_edit').on('click', function () {
 			var form_data = $('#form_edit_entry').serialize();
-			WC.db.model.controller('edit', form_data);	
+			WC_KW.db.model.controller('edit', form_data);	
 		});
 	}(),
 	// retrieve data from DB for editing
@@ -216,7 +217,7 @@ WC.db.controller = {
 			// avoid conflict when submitting entire form
 			// when updating Database
 			var form = $('#form_edit_entry > input').not('input[type=radio]');
-			WC.db.model.controller('retrieve', form);
+			WC_KW.db.model.controller('retrieve', form);
 		});
 	}()
 };

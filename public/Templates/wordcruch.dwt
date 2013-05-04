@@ -15,6 +15,7 @@
 <!-- TemplateEndEditable -->
 <!--<script src="../js/libs/jQuery-v1.8.2.js"></script>-->
 <script src="../js/libs/jQuery-v1.9.1.js"></script>
+<script src="../js/modules/helpers/wc-helpers.js"></script>
 <script src="../js/modules/db/control/wc-db-control.js"></script>
 <script src="../js/modules/db/model/wc-db-model.js"></script>
 <script src="../js/modules/db/view/wc-db-view-update.js"></script>

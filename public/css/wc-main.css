@@ -185,7 +185,7 @@ form .ok {
 		height: 100%;
 		color: #383838; /* general text color assignment */
 		background-color: #e7f1f5; /* very light blue */
-		min-width: 130em;
+		/*min-width: 130em;*/
 }
 
 #index_module 
@@ -222,63 +222,46 @@ h2 {
 		background: #02aeef url(../images/layout/title.png) no-repeat 2em center;
 }
 
-/********************** header user ***********************/
-#index_module
-#user {
-		padding: 0.5em;
-		padding-left: 2.5em;
-			
-}
-#index_module
-#user a:hover {
-	text-decoration: underline;	
-		
+/********************** top navi ***********************/
+#index_module 
+#menu_navi ul {
+	position: relative;
+	background-color: #FDFDFD;
+	width: 100%;
+	/* webkit browser gap bug fix*/
+	font-size: 0;
 }
 
-
-/********************** left navi ***********************/
 #index_module 
-#menu_navi {
-	width: 8%;
-}
-#index_module 
-#menu_navi li a {
-		display: block;
-		height: 5em;
-		max-width: 7em;	
-		margin-bottom: .25em;
+#menu_navi li {
+	display: inline-block;
+	font-size: 12px;
+	
 }
 
-/* buttons in left menu bar */
 #index_module 
-#keyword_button {
-		background-image: url(../images/layout/scissors.png);
-		background-repeat: no-repeat;
-		background-position: center center;
+#menu_navi a {
+	font-size: 1em;
+	display: inline-block;
+	float: left;
+	padding: .3em;
+	width: 11em;
+
 }
 #index_module 
-#stats_button {
-		background-image: url(../images/layout/calculator.png);
-		background-repeat: no-repeat;
-		background-position: center center; 
+#menu_navi li:nth-of-type(1) a {
+	padding-left: 2em;	
 }
 #index_module 
-#checklist_button {
-		background-image: url(../images/layout/checklist.png);
-		background-repeat: no-repeat;
-		background-position: center center; 
+#menu_navi li:nth-of-type(1) a:hover {
+	cursor: default;	
 }
-#index_module 
-#help_button {
-		background-image: url(../images/layout/questionmark.png);
-		background-repeat: no-repeat;
-		background-position: center center; 
-}
+
 /********************** work container ***********************/
 #index_module
 #work_container {
 		padding: 2em;
-		width: 90%;
+		width: 100%;
 }
 
 
@@ -308,7 +291,7 @@ h2 {
 		background-repeat: no-repeat;
 }
 
-
+#index_module
 /* search and select fields */
 .inp-field {
 		background-size: contain;
@@ -318,33 +301,45 @@ h2 {
 		width: 25em;
 		text-indent: 1em;
 }
+#index_module
 #id_to_edit {
 		border: solid 2px #393;
 }
+#index_module
+.ids_used {
+		height: 2.3em;
+		width: 22em; 
+}
+#index_module
+.ids_label {
+		font-size: 1.3em;
+}
 
+#index_module
 .language_label {
 		display: inline-block;
 		width: 2em;
 	
 }
-
+#index_module
 #inp_search {
 		background: url(../images/layout/maginifier.png) 3.5px center no-repeat;
 		background-size: 8%;
 		text-indent: 3em;
 }
-
+#index_module
 .inp-field:focus {
 		border: solid thin #953cac;
 }
-.inp-select {
-}
 
+#index_module
 /* entry editor form */
 #form_edit_entry {
-		max-width: 100em;
+		display: none;
+		width: 100%;
 }
 
+#index_module
 /* editor submit button */
 #go_edit {
 	   border: none;
@@ -353,6 +348,7 @@ h2 {
 		color: #FFF;
 		font-weight: bold;		
 }
+#index_module
 #go_edit:hover {
 		background-color: #ff8c00;
 }
@@ -367,7 +363,6 @@ h2 {
 .hide_field {
 	visibility: hidden;
 }
-
 
 
 /***table***/
@@ -439,56 +434,3 @@ th {
 		width: 100%;
 }
 
-/*
-@media screen and (max-width: 32em) {
-	#index_module  
-	#container {
-			width: 32em;
-	}
-	#index_module  
-	.menu_navi li {
-			padding-left: 1.5em;
-			text-align: left;
-	}
-	#index_module 
-	.menu_navi li {
-			border-bottom: solid thin #B8B8B8;
-	}
-	#index_module 
-	.navigation li {
-			width: 100%;
-			margin: 0;
-			padding: 0;
-	}
-	#index_module 
-	.textinput-width-1 {
-		color: #333;
-		height: 1.5em;
-		margin: .2em 0 .5em 0;
-		width: 100%;
-	}
-	#index_module 
-	td, th {
-		display: block;
-	}
-	#index_module 
-	thead {
-			display: none;
-	}
-	#index_module 
-	table {
-			width: 100%;
-			margin: 0;
-	}
-	#index_module 
-	.result_id {
-			width: 100%;
-			
-	}
-	#index_module 
-	tr:nth-of-type(2n+1) {
-		color: #FFF;
-		background: #39F;
-	}
-}
-*/
